@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class customer extends Model
 {
-    public function meals() {
 
+    protected $guarded = ['id']
+    public function activities() {
+        return belongsTo(customer::class);
     }
+    public function meals(){
+        return hasMany(Meal::class)
+    }
+
+
+
+
 }
+
