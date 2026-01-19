@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Exercise; 
 
 class ExerciseController extends Controller
 {
@@ -11,7 +12,8 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        //
+        $exercises = Exercise::all(); 
+        return view('exercises.index', compact('exercises')); 
     }
 
     /**
@@ -19,7 +21,7 @@ class ExerciseController extends Controller
      */
     public function create()
     {
-        //
+        return view('exercises.create');
     }
 
     /**
@@ -27,7 +29,9 @@ class ExerciseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Exercise::create($request->all()); 
+        
+        return redirect()->route('exercises.index'); 
     }
 
     /**
@@ -35,7 +39,8 @@ class ExerciseController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $exercise = Exercise::find($id); 
+        return view('exercises.show', compact('exercise'));
     }
 
     /**
@@ -43,7 +48,8 @@ class ExerciseController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $exercise = Exercise::find($id); 
+        return view('exercises.edit', compact('exercise')); 
     }
 
     /**
@@ -51,14 +57,20 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $exercise = Exercise::find($id); 
+        $exercise->update($request->all()); 
+        
+        return redirect()->route('exercises.index'); 
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $exercise = Exercise::find($id); 
+        $exercise->delete(); 
+        
+        return redirect()->route('exercises.index'); 
     }
+}
 }

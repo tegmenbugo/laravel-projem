@@ -3,62 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Meal;
+use App\Models\Customer;
+use App\Models\Food;
 
 class MealController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $meals = Meal::all();
+        return view('meals.index', compact('meals'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $customers = Customer::all();
+        $foods = Food::all();
+        return view('meals.create', compact('customers', 'foods'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Meal::create($request->all());
+        return redirect()->route('meals.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $meal = Meal::find($id);
+        return view('meals.show', compact('meal'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $meal = Meal::find($id);
+        $customers = Customer::all();
+        $foods = Food::all();
+        return view('meals.edit', compact('meal', 'customers', 'foods'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $meal = Meal::find($id);
+        $meal->update($request->all());
+        return redirect()->route('meals.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $meal = Meal::find($id);
+        $meal->delete();
+        return redirect()->route('meals.index');
     }
 }
